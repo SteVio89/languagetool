@@ -3,6 +3,14 @@ workflows:
   run_on_pull_request:
     jobs:
       - test-modules-job
+  run_daily:
+    triggers:
+      - schedule:
+          cron: "30 12 * * *"
+          filters:
+            branches:
+              only:
+                - master
   run_nightly:
     triggers:
       - schedule:
@@ -32,6 +40,7 @@ commands:
       - run: cd languagetool && git fetch --shallow-since=$(date +"%Y-%m-%d" -d "yesterday") origin master:master
       - run: cd languagetool && git rev-parse --abbrev-ref HEAD
       - run: cd languagetool && git diff --name-only master.."$CIRCLE_BRANCH" > /home/circleci/repo/git_diffs.txt
+      - run: more /home/circleci/repo/git_diffs.txt
   install-project:
     description: Run maven install
     steps:
@@ -62,6 +71,10 @@ jobs:
       - custom-checkout
       - install-project
       - run-all-tests
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: v1-dependencies-{{ checksum "/home/circleci/repo/languagetool/pom.xml" }}
   test-modules-job:
     executor:
       name: docker-openjdk8
