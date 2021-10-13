@@ -17,7 +17,7 @@ commands:
     steps:
       - run: git clone --depth 5 "$CIRCLE_REPOSITORY_URL" --branch "$CIRCLE_BRANCH"
       - run: cd languagetool && pwd && ls
-      - run: cd languagetool && git diff --name-only master $CIRCLE_BRANCH
+      - run: cd languagetool && git diff --name-only master "$CIRCLE_BRANCH"
       - run: date
 executors:
   docker-openjdk8:
