@@ -11,20 +11,16 @@ commands:
   custom-checkout:
     description: My custom checkout
     steps:
+      - run: git clone --shallow-since=$(date +"%Y-%m-%d" -d "yesterday") "$CIRCLE_REPOSITORY_URL" --branch "$CIRCLE_BRANCH"
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "pom.xml" }}
             - v1-dependencies-
-      - run: git clone --depth 5 "$CIRCLE_REPOSITORY_URL" --branch "$CIRCLE_BRANCH"
-      - run: cd languagetool && git fetch --depth 5 origin master:master
+      - run: cd languagetool && git fetch --shallow-since=$(date +"%Y-%m-%d" -d "yesterday") origin master:master
       - run: cd languagetool && git rev-parse --abbrev-ref HEAD
       - run: cd languagetool && git diff --name-only master.."$CIRCLE_BRANCH" > /home/circleci/repo/git_diffs.txt
       - run: cd languagetool && mvn install -DskipTests
       - run: cd languagetool && mvn dependency:go-offline
-      - save_cache:
-          paths:
-            - ~/.m2
-          key: v1-dependencies-{{ checksum "pom.xml" }}
   run-tests:
     parameters:
       path_to_check:
@@ -131,3 +127,7 @@ jobs:
           path_to_check: "languagetool-tools"
       - run-tests:
           path_to_check: "languagetool-wikipedia"
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: v1-dependencies-{{ checksum "pom.xml" }}
