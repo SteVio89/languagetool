@@ -51,9 +51,9 @@ jobs:
     steps:
       - add-github-ssh
       - custom-checkout
-      - check-for-diff
-      - run-tests
+      - check-for-diff:
           path_to_check: "languagetool-language-modules/en"
+
 #    jobs:
 #      - path-filtering/filter:
 #          base-revision: master
