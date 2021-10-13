@@ -19,10 +19,17 @@ commands:
       - run: cd languagetool && git rev-parse --abbrev-ref HEAD
       - run: cd languagetool && git diff --name-only master.."$CIRCLE_BRANCH" > /home/circleci/repo/git_diffs.txt
   check-for-diff:
+    parameters:
+      path_to_check:
+        type: string
     steps:
       - run: ls
       - run: grep -q -e 'languagetool-core/.*' /home/circleci/repo/git_diffs.txt && echo true || echo false #should true
+      - run: grep -q -e 'languagetool-language-modules/de/.*' /home/circleci/repo/git_diffs.txt && echo true || echo false #should true
+      - run: grep -q -e 'languagetool-language-modules/en/.*' /home/circleci/repo/git_diffs.txt && echo true || echo false #should true
+      - run: grep -q -e 'languagetool-language-modules/fr/.*' /home/circleci/repo/git_diffs.txt && echo true || echo false #should false
       - run: grep -q -e 'languagetool-server/.*' /home/circleci/repo/git_diffs.txt && echo true || echo false #should false
+      - run: grep -q -e << parameters.path_to_check >>/.* /home/circleci/repo/git_diffs.txt && cd languagetool/<<parameters.path_to_check>> && pwd && ls || echo false
       # Run tests
   run-tests:
     description: run tests
@@ -46,6 +53,7 @@ jobs:
       - custom-checkout
       - check-for-diff
       - run-tests
+          path_to_check: "languagetool-language-modules/en"
 #    jobs:
 #      - path-filtering/filter:
 #          base-revision: master
