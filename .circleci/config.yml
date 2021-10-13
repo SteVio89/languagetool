@@ -21,8 +21,8 @@ commands:
   check-for-diff:
     steps:
       - run: ls
-      - run: grep -q -e 'languagetool-core/.*' /home/circleci/repo/git_diffs.txt && echo true #should echo
-      - run: grep -q -e 'languagetool-server/.*' /home/circleci/repo/git_diffs.txt && echo true #should not echo
+      - run: grep -q -e 'languagetool-core/.*' /home/circleci/repo/git_diffs.txt && echo true || echo false #should true
+      - run: grep -q -e 'languagetool-server/.*' /home/circleci/repo/git_diffs.txt && echo true || echo false #should false
       # Run tests
   run-tests:
     description: run tests
