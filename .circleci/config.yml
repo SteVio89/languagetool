@@ -11,14 +11,22 @@ commands:
     description: Avoid hosts unknown for github
     steps:
       - run: mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
-  # Run tests
-  run-tests:
-    description: run tests
+  custom-checkout:
+    description: My custom checkout
     steps:
       - run: git clone --depth 5 "$CIRCLE_REPOSITORY_URL" --branch "$CIRCLE_BRANCH"
       - run: cd languagetool && git fetch --depth 5 origin master:master
       - run: cd languagetool && git rev-parse --abbrev-ref HEAD
-      - run: cd languagetool && git diff --name-only master.."$CIRCLE_BRANCH"
+      - run: cd languagetool && git diff --name-only master.."$CIRCLE_BRANCH" > /home/circleci/repo/git_diffs.txt
+  check-for-diff:
+    steps:
+      - run: ls
+      - run: grep -q -e 'languagetool-core/.*' /home/circleci/repo/git_diffs.txt && echo true #should echo
+      - run: grep -q -e 'languagetool-server/.*' /home/circleci/repo/git_diffs.txt && echo true #should not echo
+      # Run tests
+  run-tests:
+    description: run tests
+    steps:
       - run: date
       - run: pwd
         #git diff --name-only master..change_circleci_pipeline | grep -q -e 'languagetool-core/.*' && echo true
@@ -35,6 +43,8 @@ jobs:
       MAVEN_OPTS: -Xmx3200m
     steps:
       - add-github-ssh
+      - custom-checkout
+      - check-for-diff
       - run-tests
 #    jobs:
 #      - path-filtering/filter:
