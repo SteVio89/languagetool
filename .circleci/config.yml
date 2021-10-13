@@ -16,7 +16,8 @@ commands:
     description: run tests
     steps:
       - run: git clone --depth 5 "$CIRCLE_REPOSITORY_URL" --branch "$CIRCLE_BRANCH"
-      - run: cd languagetool && git fetch origin master:master
+      - run: cd languagetool && git fetch --depth 5 origin master:master
+      - run: cd languagetool && git rev-parse --abbrev-ref HEAD
       - run: cd languagetool && git diff --name-only master.."$CIRCLE_BRANCH"
       - run: date
 executors:
