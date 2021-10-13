@@ -6,7 +6,7 @@ workflows:
   run_daily:
     triggers:
       - schedule:
-          cron: "30 12 * * *"
+          cron: "0 12 * * *"
           filters:
             branches:
               only:
