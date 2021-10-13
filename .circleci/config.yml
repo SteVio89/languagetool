@@ -32,7 +32,7 @@ commands:
       #- run: grep -q -e 'languagetool-language-modules/en/.*' /home/circleci/repo/git_diffs.txt && echo true || echo false #should true
       #- run: grep -q -e 'languagetool-language-modules/fr/.*' /home/circleci/repo/git_diffs.txt && echo true || echo false #should false
       #- run: grep -q -e 'languagetool-server/.*' /home/circleci/repo/git_diffs.txt && echo true || echo false #should false
-      - run: grep -q -e << parameters.path_to_check >>/.* /home/circleci/repo/git_diffs.txt && cd languagetool/<<parameters.path_to_check>> && mvn --projects << parameters.path_to_check >> || echo false
+      - run: grep -q -e << parameters.path_to_check >>/.* /home/circleci/repo/git_diffs.txt && cd languagetool/<<parameters.path_to_check>> && mvn --projects << parameters.path_to_check >> test || echo false
       # Run tests
   run-tests:
     description: run tests
