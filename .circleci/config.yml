@@ -16,14 +16,7 @@ commands:
     description: run tests
     steps:
       - run: git clone --depth 5 "$CIRCLE_REPOSITORY_URL" --branch "$CIRCLE_BRANCH"
-      - run: ls
-      - run: cd languagetool
-      - run: pwd
-      - run: ls
-      - run: cd languagetool
-      - run: ls
-      - run: pwd
-      - run: git diff master..$CIRCLE_BRANCH
+      - run: cd languagetool && git diff master..$CIRCLE_BRANCH
       - run: date
 executors:
   docker-openjdk8:
