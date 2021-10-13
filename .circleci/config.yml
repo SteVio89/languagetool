@@ -11,6 +11,8 @@ workflows:
             branches:
               only:
                 - master
+    jobs:
+      - test-scheduled-job
   run_nightly:
     triggers:
       - schedule:
