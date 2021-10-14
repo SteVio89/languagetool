@@ -74,7 +74,7 @@ jobs:
     environment:
       MAVEN_OPTS: -Xmx3200m
     steps:
-      - add_ssh_keys
+      #- add-github-ssh
       - custom-checkout
       - install-project
       - run-all-tests
@@ -89,7 +89,7 @@ jobs:
     environment:
       MAVEN_OPTS: -Xmx3200m
     steps:
-      - add-github-ssh
+      #- add-github-ssh
       - custom-checkout
       - get-diffs
       - install-project
