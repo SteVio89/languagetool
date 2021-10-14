@@ -47,9 +47,9 @@ commands:
     steps:
      # - run: echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
 #      - run: cd $CIRCLE_WORKING_DIRECTORY && git show --pretty="" --name-only "$CIRCLE_SHA1" > /home/circleci/git_diffs.txt
-      - run: cd $CIRCLE_WORKING_DIRECTORY && git diff --name-only $(git merge-base master HEAD) > /home/circleci/git_diffs.txt
-      - run: cd $CIRCLE_WORKING_DIRECTORY && git diff --name-only $(git merge-base master "$CIRCLE_BRANCH")
-      - run: cd $CIRCLE_WORKING_DIRECTORY && git diff --name-only master.."$CIRCLE_BRANCH"
+#      - run: cd $CIRCLE_WORKING_DIRECTORY && git diff --name-only $(git merge-base master HEAD) > /home/circleci/git_diffs.txt
+#      - run: cd $CIRCLE_WORKING_DIRECTORY && git diff --name-only $(git merge-base master "$CIRCLE_BRANCH")
+      - run: cd $CIRCLE_WORKING_DIRECTORY && git diff --name-only master.."$CIRCLE_BRANCH" > /home/circleci/git_diffs.txt
       - run: tail --lines=20 /home/circleci/git_diffs.txt
       #- run: cd $CIRCLE_WORKING_DIRECTORY && git fetch --shallow-since=$(date +"%Y-%m-%d" -d "yesterday") origin master:master
       #- run: cd $CIRCLE_WORKING_DIRECTORY && git rev-parse --abbrev-ref HEAD
