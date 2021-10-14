@@ -40,7 +40,7 @@ commands:
       - run: cd $CIRCLE_WORKING_DIRECTORY && pwd && ls
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "pom.xml" }}
+            - v1-dependencies-{{ checksum "/home/circleci/project/~/project/pom.xml" }}
             - v1-dependencies-
   get-diffs:
     description: Get diffs via git diff
@@ -71,7 +71,7 @@ jobs:
   test-scheduled-job:
     executor:
       name: docker-openjdk8
-    #working_directory: ~/repo
+    #working_directory: /home/circleci/project
     environment:
       MAVEN_OPTS: -Xmx3200m
     steps:
@@ -82,7 +82,7 @@ jobs:
       - save_cache:
           paths:
             - ~/.m2
-          key: v1-dependencies-{{ checksum "pom.xml" }}
+          key: v1-dependencies-{{ checksum "/home/circleci/project/~/project/pom.xml" }}
   test-modules-job:
     executor:
       name: docker-openjdk8
@@ -183,4 +183,4 @@ jobs:
       - save_cache:
           paths:
             - ~/.m2
-          key: v1-dependencies-{{ checksum "pom.xml" }}
+          key: v1-dependencies-{{ checksum "/home/circleci/project/~/project/pom.xml" }}
