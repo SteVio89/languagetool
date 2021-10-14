@@ -39,6 +39,8 @@ commands:
       - shallow-checkout/checkout
       - run: ls
       - run: pwd
+      - run: cd $CIRCLE_WORKING_DIRECTORY
+      - run: pwd
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "/home/circleci/repo/pom.xml" }}
