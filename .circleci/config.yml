@@ -43,7 +43,7 @@ commands:
       - run: pwd
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "/home/circleci/repo/pom.xml" }}
+            - v1-dependencies-{{ checksum "/home/circleci/repo/~/repo/pom.xml" }}
             - v1-dependencies-
   get-diffs:
     description: Get diffs via git diff
@@ -62,10 +62,10 @@ commands:
       path_to_check:
         type: string
     steps:
-      - run: grep -q -e << parameters.path_to_check >>/.* /home/circleci/git_diffs.txt && cd /home/circleci/repo && mvn --projects << parameters.path_to_check >> test || echo "No changes detected in <<parameters.path_to_check>>"
+      - run: grep -q -e << parameters.path_to_check >>/.* /home/circleci/git_diffs.txt && cd /home/circleci/repo/~/repo && mvn --projects << parameters.path_to_check >> test || echo "No changes detected in <<parameters.path_to_check>>"
   run-all-tests:
     steps:
-      - run: cd /home/circleci/repo && mvn test
+      - run: cd /home/circleci/repo/~/repo && mvn test
 executors:
   docker-openjdk8:
     docker:
@@ -74,7 +74,7 @@ jobs:
   test-scheduled-job:
     executor:
       name: docker-openjdk8
-    #working_directory: ~/repo
+    working_directory: ~/repo
     environment:
       MAVEN_OPTS: -Xmx3200m
     steps:
@@ -85,11 +85,11 @@ jobs:
       - save_cache:
           paths:
             - ~/.m2
-          key: v1-dependencies-{{ checksum "/home/circleci/repo/pom.xml" }}
+          key: v1-dependencies-{{ checksum "/home/circleci/repo/~/repo/pom.xml" }}
   test-modules-job:
     executor:
       name: docker-openjdk8
-#    working_directory: ~/repo
+    working_directory: ~/repo
     environment:
       MAVEN_OPTS: -Xmx3200m
     steps:
@@ -186,4 +186,4 @@ jobs:
       - save_cache:
           paths:
             - ~/.m2
-          key: v1-dependencies-{{ checksum "/home/circleci/repo/pom.xml" }}
+          key: v1-dependencies-{{ checksum "/home/circleci/repo/~/repo/pom.xml" }}
