@@ -55,8 +55,8 @@ commands:
   install-project:
     description: Run maven install
     steps:
-      - run: cd languagetool && mvn install -DskipTests
-      - run: cd languagetool && mvn dependency:go-offline
+      - run: cd /home/circleci/repo/~/repo && mvn install -DskipTests
+      - run: cd /home/circleci/repo/~/repo && mvn dependency:go-offline
   run-tests-on-diff:
     parameters:
       path_to_check:
