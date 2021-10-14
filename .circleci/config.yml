@@ -45,7 +45,7 @@ commands:
   get-diffs:
     description: Get diffs via git diff
     steps:
-      - run: mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+      - run: echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
 #      - run: cd $CIRCLE_WORKING_DIRECTORY && git show --pretty="" --name-only "$CIRCLE_SHA1" > /home/circleci/git_diffs.txt
       - run: cd $CIRCLE_WORKING_DIRECTORY && git diff --name-only $(git merge-base master HEAD) > /home/circleci/git_diffs.txt
       - run: cd $CIRCLE_WORKING_DIRECTORY && git diff --name-only $(git merge-base master HEAD)
