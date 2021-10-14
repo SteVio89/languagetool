@@ -39,7 +39,7 @@ commands:
       - shallow-checkout/checkout
       - run: ls
       - run: pwd
-      - run: cd $CIRCLE_WORKING_DIRECTORY
+      - run: cd $CIRCLE_WORKING_DIRECTORY && pwd
       - run: pwd
       - restore_cache:
           keys:
