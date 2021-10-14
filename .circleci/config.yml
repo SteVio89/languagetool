@@ -47,10 +47,12 @@ commands:
     steps:
 #      - run: cd $CIRCLE_WORKING_DIRECTORY && git show --pretty="" --name-only "$CIRCLE_SHA1" > /home/circleci/git_diffs.txt
       - run: cd $CIRCLE_WORKING_DIRECTORY && git diff --name-only $(git merge-base master HEAD) > /home/circleci/git_diffs.txt
+      - run: cd $CIRCLE_WORKING_DIRECTORY && git diff --name-only $(git merge-base master HEAD)
       - run: tail --lines=20 /home/circleci/git_diffs.txt
-#      - run: cd languagetool && git fetch --shallow-since=$(date +"%Y-%m-%d" -d "yesterday") origin master:master
-#      - run: cd languagetool && git rev-parse --abbrev-ref HEAD
-#      - run: cd languagetool && git diff --name-only master.."$CIRCLE_BRANCH" > /home/circleci/repo/git_diffs.txt
+      - run: cd $CIRCLE_WORKING_DIRECTORY && git fetch --shallow-since=$(date +"%Y-%m-%d" -d "yesterday") origin master:master
+      - run: cd $CIRCLE_WORKING_DIRECTORY && git rev-parse --abbrev-ref HEAD
+      - run: cd $CIRCLE_WORKING_DIRECTORY && git diff --name-only $(git merge-base master HEAD)
+      - run: cd $CIRCLE_WORKING_DIRECTORY && git diff --name-only master.."$CIRCLE_BRANCH"
   install-project:
     description: Run maven install
     steps:
