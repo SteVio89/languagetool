@@ -37,6 +37,8 @@ commands:
       #- run: echo "$CIRCLE_BRANCH"
       #- run: git clone --shallow-since=$(date +"%Y-%m-%d" -d "yesterday") "$CIRCLE_REPOSITORY_URL" --branch "$CIRCLE_BRANCH"
       - shallow-checkout/checkout
+      - run: ls
+      - run: pwd
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "/home/circleci/repo/pom.xml" }}
