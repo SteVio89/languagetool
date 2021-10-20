@@ -75,7 +75,7 @@ commands:
       - run:
           name: Check diffs
           command: |
-            if [grep -q -e << parameters.path_to_check >>/.* /home/circleci/git_diffs.txt]; then
+            if grep -e << parameters.path_to_check >>/.* /home/circleci/git_diffs.txt then
               cd $CIRCLE_WORKING_DIRECTORY && mvn --projects << parameters.path_to_check >> test
             fi
       - run:
