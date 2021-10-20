@@ -72,7 +72,18 @@ commands:
       path_to_check:
         type: string
     steps:
-      - run: grep -q -e << parameters.path_to_check >>/.* /home/circleci/git_diffs.txt && cd $CIRCLE_WORKING_DIRECTORY && mvn --projects << parameters.path_to_check >> test || echo "No changes detected in <<parameters.path_to_check>>"
+      - run:
+          name: Check diffs
+          command: |
+            if [grep -q -e << parameters.path_to_check >>/.* /home/circleci/git_diffs.txt]; then
+              cd $CIRCLE_WORKING_DIRECTORY && mvn --projects << parameters.path_to_check >> test
+            fi
+      - run:
+          name: No diff found on module
+          when: on_fail
+          command: |
+            echo "No changes detected in <<parameters.path_to_check>>"
+  #      - run: grep -q -e << parameters.path_to_check >>/.* /home/circleci/git_diffs.txt && cd $CIRCLE_WORKING_DIRECTORY && mvn --projects << parameters.path_to_check >> test || echo "No changes detected in <<parameters.path_to_check>>"
   run-all-tests:
     steps:
       - run: cd $CIRCLE_WORKING_DIRECTORY && mvn test
