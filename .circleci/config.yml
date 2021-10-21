@@ -52,6 +52,7 @@ commands:
   get-diffs:
     description: Get diffs via git diff
     steps:
+#      - test
       - run: cd $CIRCLE_INTERNAL_TASK_DATA && ls && pwd
       - run: echo << pipeline.git.base_revision >>..<<pipeline.git.revision>>
       - run: curl https://api.github.com/repos/languagetool-org/languagetool/pulls/"$CIRCLE_PR_NUMBER"/files | grep -oP '(?<="filename":\s{1}")[^"]*' > /home/circleci/github_diffs.txt || echo "No forked PR"
