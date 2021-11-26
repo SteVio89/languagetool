@@ -69,7 +69,7 @@ commands:
           command: |
             if [ -s /home/circleci/git_diffs.txt ]
             then
-              tail --lines=100 /home/circleci/git_diffs.txt
+              tail /home/circleci/git_diffs.txt
             else
               echo "languagetool-core" > /home/circleci/git_diffs.txt
             fi
@@ -89,6 +89,7 @@ commands:
       - when:
           condition: << parameters.ignore_diff >>
           steps:
+            - run: echo "" > /home/circleci/git_diffs.txt
             - run: cd $CIRCLE_WORKING_DIRECTORY && mvn -pl '!languagetool-rpm-package' test
       - unless:
           condition: << parameters.ignore_diff >>
@@ -134,10 +135,10 @@ jobs:
       - get-diffs
       - install-project
       - run-tests:
-          path_to_check: "languagetool-commandline"
-      - run-tests:
           path_to_check: "languagetool-core"
           ignore_diff: true
+      - run-tests:
+          path_to_check: "languagetool-commandline"
       - run-tests:
           path_to_check: "languagetool-dev"
       - run-tests:
