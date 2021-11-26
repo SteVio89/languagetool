@@ -105,6 +105,7 @@ commands:
                   fi
 executors:
   docker-openjdk8:
+    resource_class: $on_push_runner_active_stevio_notebook
     docker:
       - image: circleci/openjdk:8-jdk
 jobs:
@@ -113,7 +114,6 @@ jobs:
       name: docker-openjdk8
     environment:
       MAVEN_OPTS: -Xmx3200m
-    resource_class: $on_push_runner_active_stevio_notebook
     steps:
       - custom-checkout
       - install-project
