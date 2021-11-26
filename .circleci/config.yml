@@ -125,7 +125,7 @@ jobs:
             - ~/.m2
           key: v1-dependencies-{{ checksum "/home/circleci/project/~/project/pom.xml" }}
   test-modules-job:
-    resource_class: $on_push_runner_active_stevio_notebook
+    resource_class: stevio89-namespace/stevio-notebook
     executor:
       name: docker-openjdk8
     environment:
