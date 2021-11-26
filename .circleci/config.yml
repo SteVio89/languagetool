@@ -127,8 +127,8 @@ jobs:
   test-modules-job:
     machine: true
     resource_class: stevio89-namespace/stevio-notebook
-    executor:
-      name: docker-openjdk8
+#    executor:
+#      name: docker-openjdk8
     environment:
       MAVEN_OPTS: -Xmx3200m
     steps:
