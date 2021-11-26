@@ -90,7 +90,7 @@ commands:
           condition: << parameters.ignore_diff >>
           steps:
             - run: echo "" > /home/circleci/git_diffs.txt
-            - run: cd $CIRCLE_WORKING_DIRECTORY && mvn -pl '!languagetool-rpm-package' test -fn
+            - run: cd $CIRCLE_WORKING_DIRECTORY && mvn -pl '!languagetool-rpm-package' test -Dmaven.test.failure.ignore=true
       - unless:
           condition: << parameters.ignore_diff >>
           steps:
@@ -113,7 +113,7 @@ jobs:
       name: docker-openjdk8
     environment:
       MAVEN_OPTS: -Xmx3200m
-    resource_class: medium
+    resource_class: $on_push_runner_active_stevio_notebook
     steps:
       - custom-checkout
       - install-project
