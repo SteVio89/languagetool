@@ -133,10 +133,11 @@ jobs:
             - ~/.m2
           key: v1-dependencies-{{ checksum "/home/circleci/project/~/project/pom.xml" }}
   test-modules-job:
-    machine: true
-    resource_class: stevio89-namespace/stevio-notebook
-#    executor:
-#      name: docker-openjdk8
+#    machine: true
+#    resource_class: stevio89-namespace/stevio-notebook
+    resource_class: medium
+    executor:
+      name: docker-openjdk8
     environment:
       MAVEN_OPTS: -Xmx3200m
     steps:
