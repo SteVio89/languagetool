@@ -89,8 +89,16 @@ commands:
       - when:
           condition: << parameters.ignore_diff >>
           steps:
-            - run: echo "" > /home/circleci/git_diffs.txt
-            - run: cd $CIRCLE_WORKING_DIRECTORY && mvn -pl '!languagetool-rpm-package' test -Dmaven.test.failure.ignore=true
+            - run:
+                name: Check diffs and test modules
+                command: |
+                  if grep -q -e << parameters.path_to_check >>/.* /home/circleci/git_diffs.txt 
+                  then
+                    echo "" > /home/circleci/git_diffs.txt
+                    cd $CIRCLE_WORKING_DIRECTORY && mvn -pl '!languagetool-rpm-package' test -fae
+                  else
+                    echo "No changes detected in <<parameters.path_to_check>>"
+                  fi
       - unless:
           condition: << parameters.ignore_diff >>
           steps:

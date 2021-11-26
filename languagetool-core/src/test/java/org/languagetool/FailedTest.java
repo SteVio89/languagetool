@@ -27,7 +27,7 @@ public class FailedTest {
 
   @Test
   public void failNow() {
-    //retrigger11
+    //retrigger
     Assert.assertFalse(true);
   }
 }
