@@ -113,6 +113,7 @@
         <com.auth0.java-jwt.version>3.12.1</com.auth0.java-jwt.version>
         <com.carrotsearch.hppc.version>0.8.2</com.carrotsearch.hppc.version>
         <com.gitlab.dumonts.hunspell.version>1.1.1</com.gitlab.dumonts.hunspell.version>
+        <com.github.pemistahl.lingua.version>1.1.1</com.github.pemistahl.lingua.version>
         <com.github.lucene-gosen.version>6.2.1</com.github.lucene-gosen.version>
         <com.hankcs.aho-corasick-double-array-trie.version>1.2.2</com.hankcs.aho-corasick-double-array-trie.version>
         <com.hankcs.hanlp.version>portable-1.8.2</com.hankcs.hanlp.version>

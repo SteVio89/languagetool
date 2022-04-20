@@ -24,6 +24,7 @@ import com.optimaize.langdetect.ngram.NgramExtractors;
 import com.optimaize.langdetect.profiles.LanguageProfile;
 import com.optimaize.langdetect.profiles.LanguageProfileReader;
 import com.optimaize.langdetect.text.*;
+import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.noop.NoopLanguage;
@@ -73,6 +74,8 @@ public class LanguageIdentifier {
 
   private FastText fastText;
   private NGramLangIdentifier ngram;
+  
+  private LinguaLangIdentifier lingua;
 
   public LanguageIdentifier() {
     this(1000);
@@ -120,6 +123,14 @@ public class LanguageIdentifier {
         throw new RuntimeException("Could not start fasttext process for language identification @ " + fasttextBinary + " with model @ " + fasttextModel, e);
       }
     }
+  }
+  
+  public void enableLingua(double minimumRelativeDistance, List<String> enabledLanguages) {
+    this.lingua = new LinguaLangIdentifier(minimumRelativeDistance, enabledLanguages);
+  }
+  
+  public void releaseLingua() {
+    this.lingua.release();
   }
 
   /** @since 5.2 */
@@ -243,22 +254,26 @@ public class LanguageIdentifier {
     }
     Map.Entry<String,Double> result = null;
     boolean fasttextFailed = false;
-    if (fastText != null || ngram != null) {
+    if (fastText != null || ngram != null || lingua != null) {
       try {
         Map<String, Double> scores;
         boolean usingFastText = false;
         if ((cleanText.length() <= SHORT_ALGO_THRESHOLD || fastText == null) && ngram != null) {
           scores = ngram.detectLanguages(cleanText.trim(), additionalLangs);
+        }else if ((cleanText.length() <= SHORT_ALGO_THRESHOLD || fastText == null) && lingua != null) {
+            scores = lingua.detectLanguages(cleanText);
         } else {
           usingFastText = true;
           scores = fastText.runFasttext(cleanText, additionalLangs);
         }
+        tmpResult = scores;
         result = getHighestScoringResult(scores);
         /*if (result.getValue().floatValue() < THRESHOLD) {
           System.out.println("FastText below threshold: " + result.getValue().floatValue() + " for " + cleanText.length() + " chars");
         } else {
           System.out.println("FastText above threshold: " + result.getValue().floatValue() + " for " + cleanText.length() + " chars");
         }*/
+        
         if ((usingFastText && result.getValue().floatValue() < THRESHOLD) || result.getKey().equals("zz")) {
           //System.out.println(cleanText + " ->" + result.getValue().floatValue() + " " + result.getKey());
           CommonWords commonWords = new CommonWords();
@@ -271,6 +286,7 @@ public class LanguageIdentifier {
               continue;
             }
             baseLangAlreadyHandled.add(langCode);
+            
             if (scores.containsKey(langCode)) {
               // this looks arbitrary, but gave best results with evaluation (LanguageDetectionMinLengthEval):
               scores.put(langCode, scores.get(langCode) + Double.valueOf(entry.getValue()));
@@ -338,6 +354,9 @@ public class LanguageIdentifier {
       return null;
     }
   }
+  
+  @Getter
+  private Map<String, Double> tmpResult = null;
   
   static boolean canLanguageBeDetected(String langCode, List<String> additionalLanguageCodes) {
     return Languages.isLanguageSupported(langCode) || additionalLanguageCodes.contains(langCode);

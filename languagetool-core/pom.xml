@@ -310,6 +310,11 @@
             <version>${org.jetbrains.intellij.deps.trove4j.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.github.pemistahl</groupId>
+            <artifactId>lingua</artifactId>
+            <version>${com.github.pemistahl.lingua.version}</version>
+        </dependency>
+        <dependency>
             <groupId>commons-validator</groupId>
             <artifactId>commons-validator</artifactId>
             <version>${commons-validator}</version>
