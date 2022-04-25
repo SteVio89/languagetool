@@ -49,8 +49,9 @@ class LanguageDetectionMinLengthEval {
   private LanguageDetectionMinLengthEval() {
     languageIdentifier = new LanguageIdentifier();
     //TODO: not enableNgram to enable lingua!
-    languageIdentifier.enableNgrams(new File("/home/stefan/Dokumente/languagetool/data/model_ml50_new.zip"));
-    languageIdentifier.enableFasttext(new File("/home/stefan/Dokumente/languagetool/data/fasttext/fasttext"), new File("/home/stefan/Dokumente/languagetool/data/fasttext/lid.176.bin"));
+    languageIdentifier.enableLinguaService(new File("C:\\Users\\stefa\\Programme\\Unsafe\\language_detection.exe"));
+//    languageIdentifier.enableNgrams(new File("/home/stefan/Dokumente/languagetool/data/model_ml50_new.zip"));
+//    languageIdentifier.enableFasttext(new File("/home/stefan/Dokumente/languagetool/data/fasttext/fasttext"), new File("/home/stefan/Dokumente/languagetool/data/fasttext/lid.176.bin"));
       List<String> notSupportedByLingua = Arrays.asList("de-DE-x-simple-language", "br", "ast", "gl", "km");
       List<String> languagesToDetectByLingua = new ArrayList<>();
       Languages.get().forEach(language -> {
